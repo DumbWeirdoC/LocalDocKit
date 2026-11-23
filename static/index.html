@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocalDocKit - Privacy-First PDF & Image Suite</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236366f1'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/><polyline points='14 2 14 8 20 8'/></svg>">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="logo-svg">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h1>Local<span>DocKit</span></h1>
+          <p class="brand-subtitle">100% Offline &bull; Zero Server Uploads &bull; Privacy-Guaranteed</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="privacy-pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sm-icon shield-icon">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>Local Engine</span>
+        </div>
+        <!-- Theme Toggle -->
+        <button type="button" class="theme-toggle-btn" id="themeToggle" title="Toggle Light / Dark mode">
+          <svg id="themeIconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="theme-svg">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg id="themeIconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="theme-svg" style="display:none">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="tool-nav">
+      <button class="nav-tab active" data-tab="merge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tab-icon">
+          <path d="M16 16l-4-4-4 4M12 12v9"></path>
+          <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+          <polyline points="16 16 12 12 8 16"></polyline>
+        </svg>
+        PDF Merge
+      </button>
+
+      <button class="nav-tab" data-tab="split">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tab-icon">
+          <circle cx="6" cy="6" r="3"></circle>
+          <circle cx="6" cy="18" r="3"></circle>
+          <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+          <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+          <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+        </svg>
+        PDF Split
+      </button>
+
+      <button class="nav-tab" data-tab="compress">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tab-icon">
+          <polyline points="4 14 10 14 10 20"></polyline>
+          <polyline points="20 10 14 10 14 4"></polyline>
+          <line x1="14" y1="10" x2="21" y2="3"></line>
+          <line x1="3" y1="21" x2="10" y2="14"></line>
+        </svg>
+        PDF Compress
+      </button>
+
+      <button class="nav-tab" data-tab="images">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tab-icon">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        Image &amp; Privacy Cleaner
+      </button>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- TAB 1: PDF MERGE -->
+      <section class="tool-panel active" id="tab-merge">
+        <div class="panel-header">
+          <h2>Merge Multiple PDF Documents</h2>
+          <p class="panel-desc">Combine multiple PDFs into a single unified document in any order.</p>
+        </div>
+
+        <div class="dropzone" id="mergeDropzone">
+          <input type="file" id="mergeFileInput" multiple accept=".pdf" style="display: none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="upload-icon">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <p class="drop-title">Drag &amp; drop PDF files here, or <span class="browse-link">browse files</span></p>
+          <p class="drop-hint">Select 2 or more PDFs. You can reorder them below before merging.</p>
+        </div>
+
+        <!-- Merge File List -->
+        <div class="file-list-card" id="mergeFileListCard" style="display: none;">
+          <div class="list-header">
+            <h3>Files to Merge (<span id="mergeFileCount">0</span>)</h3>
+            <button type="button" class="btn btn-sm btn-outline" id="clearMergeList">Clear All</button>
+          </div>
+          <ul class="file-items-list" id="mergeItemsList"></ul>
+        </div>
+
+        <div class="panel-actions">
+          <button type="button" class="btn btn-primary btn-lg" id="startMergeBtn" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sm-icon">
+              <path d="M16 16l-4-4-4 4M12 12v9"></path>
+              <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+            </svg>
+            Merge &amp; Download PDF
+          </button>
+        </div>
+      </section>
+
+      <!-- TAB 2: PDF SPLIT -->
+      <section class="tool-panel" id="tab-split">
+        <div class="panel-header">
+          <h2>Split or Extract Pages from PDF</h2>
+          <p class="panel-desc">Extract specific page ranges into a new PDF or split each page into a ZIP archive.</p>
+        </div>
+
+        <div class="dropzone" id="splitDropzone">
+          <input type="file" id="splitFileInput" accept=".pdf" style="display: none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="upload-icon">
+            <circle cx="6" cy="6" r="3"></circle>
+            <circle cx="6" cy="18" r="3"></circle>
+            <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+            <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+            <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+          </svg>
+          <p class="drop-title">Drag &amp; drop a PDF here, or <span class="browse-link">browse file</span></p>
+          <p class="drop-hint">Single PDF document</p>
+        </div>
+
+        <!-- Split File Inspection Card -->
+        <div class="file-inspect-card" id="splitInspectCard" style="display: none;">
+          <div class="inspect-info">
+            <div class="file-badge">PDF</div>
+            <div class="file-meta">
+              <div class="file-name" id="splitFileName">document.pdf</div>
+              <div class="file-sub"><span id="splitFileSize">0 KB</span> &bull; <strong id="splitTotalPages">0 pages</strong></div>
+            </div>
+          </div>
+          <button type="button" class="remove-btn" id="removeSplitFile">&times;</button>
+        </div>
+
+        <!-- Split Options -->
+        <div class="options-card" id="splitOptionsCard" style="display: none;">
+          <h3>Choose Split Mode:</h3>
+          <div class="radio-group">
+            <label class="radio-box active" id="radioRangeBox">
+              <input type="radio" name="splitMode" value="range" checked>
+              <div class="radio-content">
+                <strong>Custom Page Range</strong>
+                <span>Extract selected pages into a single PDF (e.g. 1-3, 5, 8-10)</span>
+              </div>
+            </label>
+            <label class="radio-box" id="radioAllBox">
+              <input type="radio" name="splitMode" value="all">
+              <div class="radio-content">
+                <strong>Split Every Page into ZIP</strong>
+                <span>Each page saved as an individual PDF inside a single ZIP file</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="form-group" id="rangeInputGroup">
+            <label for="splitRangeInput">Page Ranges to Extract:</label>
+            <input type="text" id="splitRangeInput" placeholder="e.g. 1-3, 5, 8-10" value="1">
+            <p class="input-hint">Specify individual pages or comma-separated ranges. Example: <code>1-3, 5</code></p>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button type="button" class="btn btn-primary btn-lg" id="startSplitBtn" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sm-icon">
+              <polyline points="8 17 12 21 16 17"></polyline>
+              <line x1="12" y1="12" x2="12" y2="21"></line>
+              <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"></path>
+            </svg>
+            Split &amp; Download
+          </button>
+        </div>
+      </section>
+
+      <!-- TAB 3: PDF COMPRESS -->
+      <section class="tool-panel" id="tab-compress">
+        <div class="panel-header">
+          <h2>Compress &amp; Optimize PDF Size</h2>
+          <p class="panel-desc">Reduce PDF file size by deduplicating objects and compressing embedded assets.</p>
+        </div>
+
+        <div class="dropzone" id="compressDropzone">
+          <input type="file" id="compressFileInput" accept=".pdf" style="display: none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="upload-icon">
+            <polyline points="4 14 10 14 10 20"></polyline>
+            <polyline points="20 10 14 10 14 4"></polyline>
+            <line x1="14" y1="10" x2="21" y2="3"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+          <p class="drop-title">Drag &amp; drop a PDF here, or <span class="browse-link">browse file</span></p>
+          <p class="drop-hint">Single PDF document</p>
+        </div>
+
+        <div class="file-inspect-card" id="compressInspectCard" style="display: none;">
+          <div class="inspect-info">
+            <div class="file-badge">PDF</div>
+            <div class="file-meta">
+              <div class="file-name" id="compressFileName">document.pdf</div>
+              <div class="file-sub"><span id="compressFileSize">0 KB</span></div>
+            </div>
+          </div>
+          <button type="button" class="remove-btn" id="removeCompressFile">&times;</button>
+        </div>
+
+        <div class="options-card" id="compressOptionsCard" style="display: none;">
+          <h3>Select Compression Profile:</h3>
+          <div class="compression-levels">
+            <label class="level-card">
+              <input type="radio" name="compressLevel" value="low">
+              <div class="level-content">
+                <strong>Low</strong>
+                <span>Lossless stream optimization &amp; duplicate removal. Highest visual fidelity.</span>
+              </div>
+            </label>
+            <label class="level-card active">
+              <input type="radio" name="compressLevel" value="medium" checked>
+              <div class="level-content">
+                <strong>Medium (Recommended)</strong>
+                <span>Stream compression + 70% image optimization. Excellent balance.</span>
+              </div>
+            </label>
+            <label class="level-card">
+              <input type="radio" name="compressLevel" value="high">
+              <div class="level-content">
+                <strong>High</strong>
+                <span>Aggressive compression + 45% image downscale. Maximum file reduction.</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Before / After Stats Banner -->
+        <div class="compression-results-card" id="compressResultsCard" style="display: none;">
+          <div class="stats-row">
+            <div class="stat-box">
+              <span class="stat-label">Original Size</span>
+              <span class="stat-num" id="statOrigSize">0 KB</span>
+            </div>
+            <div class="stat-arrow">&rarr;</div>
+            <div class="stat-box">
+              <span class="stat-label">Compressed Size</span>
+              <span class="stat-num stat-success" id="statCompSize">0 KB</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Space Saved</span>
+              <span class="stat-num stat-highlight" id="statSavedPercent">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button type="button" class="btn btn-primary btn-lg" id="startCompressBtn" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sm-icon">
+              <polyline points="4 14 10 14 10 20"></polyline>
+              <polyline points="20 10 14 10 14 4"></polyline>
+            </svg>
+            Compress &amp; Download PDF
+          </button>
+        </div>
+      </section>
+
+      <!-- TAB 4: IMAGE CONVERTER & PRIVACY CLEANER -->
+      <section class="tool-panel" id="tab-images">
+        <div class="panel-header">
+          <h2>Batch Image Converter &amp; Privacy Cleaner</h2>
+          <p class="panel-desc">Convert formats (WebP, PNG, JPEG), adjust quality, and strip private GPS/EXIF metadata.</p>
+        </div>
+
+        <div class="dropzone" id="imageDropzone">
+          <input type="file" id="imageFileInput" multiple accept="image/*" style="display: none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="upload-icon">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <p class="drop-title">Drag &amp; drop images here, or <span class="browse-link">browse images</span></p>
+          <p class="drop-hint">Supports JPG, PNG, WEBP, BMP, GIF. Batch upload supported.</p>
+        </div>
+
+        <!-- Image List -->
+        <div class="file-list-card" id="imageFileListCard" style="display: none;">
+          <div class="list-header">
+            <h3>Selected Images (<span id="imageFileCount">0</span>)</h3>
+            <button type="button" class="btn btn-sm btn-outline" id="clearImageList">Clear All</button>
+          </div>
+          <div class="image-previews-grid" id="imagePreviewsGrid"></div>
+        </div>
+
+        <!-- Image Processing Controls -->
+        <div class="options-card" id="imageOptionsCard" style="display: none;">
+          <div class="controls-grid">
+            <!-- Format -->
+            <div class="form-group">
+              <label for="imageFormatSelect">Output Format:</label>
+              <select id="imageFormatSelect">
+                <option value="WEBP" selected>WebP (Modern, Smallest Size)</option>
+                <option value="JPEG">JPEG (Universal Compatibility)</option>
+                <option value="PNG">PNG (Lossless Quality)</option>
+              </select>
+            </div>
+
+            <!-- Quality -->
+            <div class="form-group">
+              <div class="label-row">
+                <label for="imageQualitySlider">Quality:</label>
+                <span class="range-val" id="imageQualityVal">85%</span>
+              </div>
+              <input type="range" id="imageQualitySlider" min="10" max="100" value="85" step="5">
+            </div>
+
+            <!-- Max Width -->
+            <div class="form-group">
+              <label for="imageMaxWidth">Max Width (optional):</label>
+              <input type="number" id="imageMaxWidth" placeholder="e.g. 1920 (0 = keep original)" min="0" value="0">
+            </div>
+
+            <!-- Strip EXIF Toggle -->
+            <div class="form-group full-col">
+              <label class="toggle-switch-label">
+                <input type="checkbox" id="stripMetadataCheck" checked>
+                <span class="switch-slider"></span>
+                <span class="switch-text">
+                  <strong>Strip EXIF / GPS Location Metadata</strong>
+                  <span class="switch-sub">Removes GPS coordinates, camera model, lens info, and exposure timestamps for absolute privacy.</span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button type="button" class="btn btn-primary btn-lg" id="startImageBtn" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sm-icon">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Convert &amp; Download
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>LocalDocKit &bull; 100% Private Local Execution &bull; Zero External Telemetry</p>
+    </footer>
+  </div>
+
+  <!-- Global Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Loading Modal -->
+  <div id="loadingModal" class="modal-overlay" style="display: none;">
+    <div class="modal-box">
+      <div class="spinner"></div>
+      <p class="modal-msg" id="loadingMsg">Processing document locally...</p>
+    </div>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
