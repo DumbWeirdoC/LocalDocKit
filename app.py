@@ -21,7 +21,9 @@ from processors import (
     split_pdf,
     compress_pdf,
     batch_process_images,
+    grab_url_to_pdf,
 )
+from pydantic import BaseModel
 
 HOST = "127.0.0.1"
 DEFAULT_PORT = 8001
@@ -239,6 +241,29 @@ async def api_image_convert(
         raise HTTPException(status_code=400, detail=str(ve))
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Image processing failed: {str(exc)}")
+
+
+# 6. PDF Grabber (URL to PDF)
+class GrabRequest(BaseModel):
+    url: str
+    landscape: bool = False
+
+
+@app.post("/api/pdf/grab")
+async def api_pdf_grab(req: GrabRequest):
+    try:
+        pdf_bytes, filename = grab_url_to_pdf(req.url, req.landscape)
+        return Response(
+            content=pdf_bytes,
+            media_type="application/pdf",
+            headers={
+                "Content-Disposition": f'attachment; filename="{filename}"'
+            }
+        )
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Webpage capture failed: {str(exc)}")
 
 
 def main():

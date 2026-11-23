@@ -36,6 +36,21 @@ All processing runs entirely on your local machine using Python. **Zero files ar
 - Optional proportional image resizing by max width (e.g., scale high-res photos down to 1920px).
 - Generates single file download or a bundled `.zip` archive for batch conversions.
 
+### 5. 🌐 Webpage to PDF Grabber
+- Capture and convert any live website, blog post, or article into a clean, pixel-perfect PDF.
+- Preserves full HTML formatting, CSS stylesheets, fonts, and images (rendered via built-in Chromium engine).
+- Supports Portrait and Landscape orientations.
+- Includes quick presets for common testing sites.
+
+---
+
+## ⚡ Real-Time Progress & Estimated Time Remaining (ETR)
+
+All 5 tools feature an integrated live progress indicator:
+- **Visual Progress Bar**: Real-time animated progress track.
+- **Percentage Indicator**: 0% to 100% completion status.
+- **Dynamic Time Estimation**: Live countdown calculating remaining seconds (`⏳ Estimated: ~3s remaining`) based on elapsed time and current progress.
+
 ---
 
 ## 🔒 Privacy & Architecture Highlights

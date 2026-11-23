@@ -92,7 +92,16 @@
           <circle cx="8.5" cy="8.5" r="1.5"></circle>
           <polyline points="21 15 16 10 5 21"></polyline>
         </svg>
-        Image &amp; Privacy Cleaner
+        Image Cleaner
+      </button>
+
+      <button class="nav-tab" data-tab="grabber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="tab-icon">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        PDF Grabber
       </button>
     </nav>
 
@@ -374,6 +383,70 @@
           </button>
         </div>
       </section>
+
+      <!-- TAB 5: PDF GRABBER (URL TO PDF) -->
+      <section class="tool-panel" id="tab-grabber">
+        <div class="panel-header">
+          <h2>Webpage to PDF Grabber</h2>
+          <p class="panel-desc">Render and capture any website or web article into a clean, pixel-perfect PDF with full CSS layouts and images preserved.</p>
+        </div>
+
+        <div class="card-box grabber-card">
+          <div class="form-group full-col">
+            <label for="grabberUrlInput">Target Webpage / Article URL:</label>
+            <div class="url-input-container">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="url-icon">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+              </svg>
+              <input type="url" id="grabberUrlInput" placeholder="https://example.com/article" required>
+              <button type="button" class="btn-clear-url" id="clearGrabberUrl" title="Clear URL">&times;</button>
+            </div>
+            <div class="presets-row">
+              <span class="preset-label">Quick Try:</span>
+              <button type="button" class="preset-pill" data-url="https://en.wikipedia.org/wiki/Portable_Document_Format">Wikipedia (PDF Article)</button>
+              <button type="button" class="preset-pill" data-url="https://github.com">GitHub.com</button>
+              <button type="button" class="preset-pill" data-url="https://news.ycombinator.com">Hacker News</button>
+            </div>
+          </div>
+
+          <!-- Grabber Settings -->
+          <div class="options-card" style="margin-top: 1rem;">
+            <h3>Page Layout Settings:</h3>
+            <div class="controls-grid">
+              <div class="form-group">
+                <label for="grabberOrientation">Orientation:</label>
+                <select id="grabberOrientation">
+                  <option value="portrait" selected>Portrait (Standard Document)</option>
+                  <option value="landscape">Landscape (Wide Tables / Dashboards)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Engine &amp; Fidelity:</label>
+                <div class="fidelity-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sm-icon">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>Native Chromium Engine (Edge/Chrome)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button type="button" class="btn btn-primary btn-lg" id="startGrabberBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sm-icon">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            Grab Webpage &amp; Download PDF
+          </button>
+        </div>
+      </section>
     </main>
 
     <!-- Footer -->
@@ -385,11 +458,38 @@
   <!-- Global Toast Notification -->
   <div id="toast" class="toast"></div>
 
-  <!-- Loading Modal -->
-  <div id="loadingModal" class="modal-overlay" style="display: none;">
-    <div class="modal-box">
-      <div class="spinner"></div>
-      <p class="modal-msg" id="loadingMsg">Processing document locally...</p>
+  <!-- Enhanced Live Progress & ETR Modal -->
+  <div id="progressModal" class="modal-overlay" style="display: none;">
+    <div class="progress-modal-card">
+      <div class="modal-header-row">
+        <div class="modal-icon-badge" id="modalIconBadge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="modal-icon-svg">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+        <div class="modal-title-group">
+          <h3 id="progressModalTitle">Processing Task...</h3>
+          <span class="modal-step-text" id="progressStepText">Initializing operation...</span>
+        </div>
+      </div>
+
+      <!-- Live Animated Progress Bar -->
+      <div class="modal-progress-wrap">
+        <div class="modal-progress-track">
+          <div class="modal-progress-fill" id="modalProgressFill" style="width: 0%;"></div>
+        </div>
+        <div class="modal-progress-metrics">
+          <span class="metric-percent" id="modalProgressPercent">0%</span>
+          <span class="metric-eta" id="modalProgressEta">⏳ Estimated: calculating...</span>
+        </div>
+      </div>
+
+      <div class="modal-footer-hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="sm-icon">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <span>100% Local processing &bull; Zero files uploaded externally</span>
+      </div>
     </div>
   </div>
 

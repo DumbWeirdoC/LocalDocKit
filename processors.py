@@ -1,9 +1,95 @@
 import io
+import os
 import re
+import shutil
+import subprocess
+import tempfile
 import zipfile
 from typing import List, Tuple, Dict, Any, Optional
+from urllib.parse import urlparse
 import pypdf
 from PIL import Image
+
+
+def find_system_browser() -> Optional[str]:
+    """
+    Finds Edge, Chrome, Brave or Chromium binary on the host system.
+    """
+    candidates = [
+        r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+        os.path.expandvars(r"%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe"),
+        os.path.expandvars(r"%LOCALAPPDATA%\Microsoft\Edge\Application\msedge.exe"),
+        r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe",
+    ]
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+
+    for name in ["msedge", "chrome", "google-chrome", "chromium", "brave"]:
+        found = shutil.which(name)
+        if found:
+            return found
+    return None
+
+
+def grab_url_to_pdf(url: str, landscape: bool = False) -> Tuple[bytes, str]:
+    """
+    Captures a live webpage into a pixel-perfect PDF using headless Edge/Chrome.
+    Returns (pdf_bytes, filename).
+    """
+    cleaned = url.strip()
+    if not cleaned:
+        raise ValueError("URL cannot be empty.")
+
+    if not re.match(r"^https?://", cleaned, re.IGNORECASE):
+        cleaned = f"https://{cleaned}"
+
+    parsed = urlparse(cleaned)
+    domain = parsed.netloc.replace(":", "_").replace(".", "_") or "webpage"
+    path_slug = re.sub(r"[^\w\-]", "_", parsed.path.strip("/")).strip("_")
+    slug = f"{domain}_{path_slug}" if path_slug else domain
+    if len(slug) > 40:
+        slug = slug[:40]
+    out_filename = f"{slug}.pdf"
+
+    browser = find_system_browser()
+    if not browser:
+        raise ValueError("No compatible browser (Edge, Chrome, or Chromium) found on this machine to capture the webpage.")
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        out_pdf = os.path.join(tmpdir, "output.pdf")
+        user_data = os.path.join(tmpdir, "browser_profile")
+        cmd = [
+            browser,
+            "--headless",
+            "--disable-gpu",
+            "--no-sandbox",
+            f"--user-data-dir={user_data}",
+            f"--print-to-pdf={out_pdf}",
+            "--no-pdf-header-footer",
+        ]
+        if landscape:
+            cmd.append("--landscape")
+        cmd.append(cleaned)
+
+        try:
+            subprocess.run(cmd, check=True, timeout=35, capture_output=True)
+        except subprocess.TimeoutExpired:
+            raise ValueError("Webpage capture timed out after 35 seconds. The target site may be unreachable or blocked.")
+        except subprocess.CalledProcessError as e:
+            err = e.stderr.decode("utf-8", errors="ignore") if e.stderr else "Unknown error"
+            raise ValueError(f"Browser capture failed: {err}")
+
+        if not os.path.exists(out_pdf) or os.path.getsize(out_pdf) == 0:
+            raise ValueError("Browser could not generate a PDF for this URL. Please verify the URL is accessible.")
+
+        with open(out_pdf, "rb") as f:
+            pdf_bytes = f.read()
+
+        return pdf_bytes, out_filename
 
 
 def inspect_pdf(pdf_bytes: bytes) -> Dict[str, Any]:
