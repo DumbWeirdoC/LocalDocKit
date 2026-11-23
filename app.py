@@ -75,7 +75,12 @@ app.add_middleware(
 )
 
 # Static files directory
-STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+if getattr(sys, "frozen", False):
+    BASE_DIR = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(sys.executable)))
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_DIR = os.path.join(BASE_DIR, "static")
 os.makedirs(STATIC_DIR, exist_ok=True)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
@@ -268,4 +273,6 @@ def main():
 
 
 if __name__ == "__main__":
+    import multiprocessing
+    multiprocessing.freeze_support()
     main()

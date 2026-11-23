@@ -9,6 +9,11 @@ __pycache__/
 *$py.class
 *.so
 
+# Build and PyInstaller artifacts
+build/
+dist/
+*.spec
+
 # OS & Editor
 .DS_Store
 Thumbs.db

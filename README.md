@@ -49,33 +49,27 @@ All processing runs entirely on your local machine using Python. **Zero files ar
 
 ## 🚀 Quick Start Guide
 
-### 1. Clone the Repository
+### Option A: Standalone Portable EXE (No Python Required)
+1. Head over to the **[GitHub Releases](https://github.com/DumbWeirdoC/LocalDocKit/releases)** tab.
+2. Download **`LocalDocKit.exe`**.
+3. Double-click to launch! The local server starts and automatically opens the dashboard in your default browser.
+
+---
+
+### Option B: Run from Source or Batch Launcher
 ```bash
 git clone https://github.com/DumbWeirdoC/LocalDocKit.git
 cd LocalDocKit
 ```
 
-### 2. Set Up a Virtual Environment
+**On Windows:**
+Double-click `Launch-LocalDocKit.bat` (it automatically sets up the virtual environment, verifies dependencies, and launches the app).
 
-**Windows (PowerShell):**
+**Or manually via Terminal:**
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-```
-
-**Linux / macOS (Bash):**
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### 3. Install Dependencies
-```bash
 pip install -r requirements.txt
-```
-
-### 4. Launch LocalDocKit
-```bash
 python app.py
 ```
 > LocalDocKit will start on `http://127.0.0.1:8001` (or next available port) and open your browser automatically.
